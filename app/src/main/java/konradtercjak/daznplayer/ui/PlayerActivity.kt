@@ -7,7 +7,9 @@ import android.view.View
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.util.*
+import com.google.android.material.snackbar.Snackbar
 import konradtercjak.daznplayer.databinding.PlayerBinding
+import org.xmlpull.v1.XmlPullParserException
 
 
 class PlayerActivity : Activity() {
@@ -39,24 +41,39 @@ class PlayerActivity : Activity() {
                 setParameters(buildUponParameters().setMaxVideoSizeSd())
             }
 
-            val mediaItem = MediaItem.Builder()
-                .setUri(url)
-                .setMimeType(MimeTypes.APPLICATION_MPD)
-                .build()
+//            val mediaItem = MediaItem.Builder()
+//                .setUri(url)
+//                .setMimeType(MimeTypes.APPLICATION_MPD)
+//                .build()
 
+            val mediaItem = MediaItem.fromUri(url!!)
 
             player = ExoPlayer.Builder(this).setTrackSelector(trackSelector)
-
                 .build()
                 .also { exoPlayer ->
                     binding.videoView.player = exoPlayer
-                    exoPlayer.setMediaItem(mediaItem)
-
                 }
-            player!!.playWhenReady = playWhenReady
-            player!!.seekTo(currentWindow, playbackPosition)
-            player!!.prepare()
+
+            try {
+                player!!.setMediaItem(mediaItem)
+                player!!.playWhenReady = playWhenReady
+                player!!.seekTo(currentWindow, playbackPosition)
+                player!!.prepare()
+
+            }  catch (throwable: Throwable) {
+                showErrorSnackbar("Stream error!")
+            }
+
         }
+    }
+
+    private fun showErrorSnackbar(message: String): Snackbar {
+        val snackbar = Snackbar.make(this, binding.root, message, Snackbar.LENGTH_INDEFINITE)
+        snackbar.view.setOnClickListener {
+            snackbar.dismiss()
+        }
+        snackbar.show()
+        return snackbar
     }
 
     private fun releasePlayer() {
