@@ -2,12 +2,12 @@ package konradtercjak.daznplayer.ui.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.*
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.*
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import konradtercjak.daznplayer.R
 import konradtercjak.daznplayer.databinding.ListFragmentBinding
 import konradtercjak.daznplayer.model.*
@@ -18,14 +18,14 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.io.IOException
 
-
+@AndroidEntryPoint
 class DaznFragment : Fragment(R.layout.list_fragment) {
     companion object {
         const val IS_EVENTS = "IS_EVENTS"
     }
 
     private val binding: ListFragmentBinding by viewBinding(ListFragmentBinding::bind)
-    private var viewModel: DaznViewModel by autoCleaned { ViewModelProvider(this).get(DaznViewModel::class.java) }
+    private val viewModel: DaznViewModel by viewModels()
     private var adapter: DaznAdapter by autoCleaned { DaznAdapter(viewModel) }
 
 
@@ -58,7 +58,6 @@ class DaznFragment : Fragment(R.layout.list_fragment) {
         }
 
         viewModel.clickedUrl.observe(viewLifecycleOwner) { url ->
-            Log.e("AAA", "observed")
             lifecycleScope.launch {
 
                 val intent = Intent(requireContext(), PlayerActivity::class.java)

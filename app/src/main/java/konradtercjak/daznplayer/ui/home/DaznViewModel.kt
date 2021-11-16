@@ -1,10 +1,10 @@
 package konradtercjak.daznplayer.ui.home
 
-import android.util.Log
 import androidx.lifecycle.*
 import coil.load
 import coil.request.CachePolicy
 import coil.transform.RoundedCornersTransformation
+import dagger.hilt.android.lifecycle.HiltViewModel
 import konradtercjak.daznplayer.R
 import konradtercjak.daznplayer.model.*
 import konradtercjak.daznplayer.network.DaznApi
@@ -13,9 +13,10 @@ import konradtercjak.daznplayer.util.px
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import java.io.IOException
+import javax.inject.Inject
 
-
-class DaznViewModel : ViewModel() {
+@HiltViewModel
+class DaznViewModel  @Inject constructor(private val api: DaznApi):ViewModel() {
     private var _clickedUrl = MutableLiveData<String>()
     val clickedUrl: LiveData<String>
         get() {
@@ -25,7 +26,6 @@ class DaznViewModel : ViewModel() {
     fun getEvents(): Flow<NetworkResponse<List<DaznEvent>>> {
         return flow {
 
-            val api = DaznApi.getApi()
             try {
                 var response = api.getEvents()
 
@@ -57,7 +57,6 @@ class DaznViewModel : ViewModel() {
         return flow {
             while (true) {
                 try {
-                    val api = DaznApi.getApi()
                     val response = api.getSchedule()
 
                     if (response.isSuccessful && response.body() != null)
@@ -87,7 +86,6 @@ class DaznViewModel : ViewModel() {
 
         if (item is DaznEvent) {
             holder.binding.root.setOnClickListener {
-                Log.e("AAA", "clicked")
                 _clickedUrl.value = item.videoUrl
             }
         }
