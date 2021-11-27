@@ -123,9 +123,7 @@ class DaznFragment : Fragment(R.layout.list_fragment) {
             recyclerView.visibility = View.GONE
 
             adapter.submitList(items)
-            val dividerItemDecoration = DividerItemDecoration(recyclerView.context, LinearLayoutManager.VERTICAL)
 
-            recyclerView.addItemDecoration(dividerItemDecoration)
             searchLoading.visibility = View.GONE
             recyclerView.visibility = View.VISIBLE
 
