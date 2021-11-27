@@ -1,10 +1,15 @@
-package konradtercjak.daznplayer.network
+package konradtercjak.daznplayer
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
-import dagger.*
+import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import konradtercjak.daznplayer.network.DaznApi
+import konradtercjak.daznplayer.ui.home.NetworkInteractor
+import konradtercjak.daznplayer.ui.home.NetworkUsecase
+import konradtercjak.daznplayer.ui.home.ViewInteractor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -15,7 +20,7 @@ import javax.inject.Singleton
 @Module
 @Suppress("unused")
 @InstallIn(SingletonComponent::class)
-class NetworkModule {
+class DaznModule {
 
     @Provides
     @Singleton
@@ -37,5 +42,21 @@ class NetworkModule {
         return retrofit.create(DaznApi::class.java)
     }
 
+    @Provides
+    @Singleton
+    fun provideNetworkInteractor(api: DaznApi): NetworkInteractor {
+        return NetworkInteractor(api)
+    }
 
+    @Provides
+    @Singleton
+    fun provideViewInteractor(): ViewInteractor {
+        return ViewInteractor()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNetworkUsecase(networkInteractor: NetworkInteractor, viewInteractor: ViewInteractor): NetworkUsecase {
+        return NetworkUsecase(networkInteractor, viewInteractor)
+    }
 }

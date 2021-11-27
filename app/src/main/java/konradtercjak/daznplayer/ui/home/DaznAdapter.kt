@@ -1,23 +1,27 @@
 package konradtercjak.daznplayer.ui.home
 
-import android.view.*
-import androidx.recyclerview.widget.*
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import konradtercjak.daznplayer.*
+import konradtercjak.daznplayer.R
 import konradtercjak.daznplayer.databinding.PhotoItemBinding
-import konradtercjak.daznplayer.model.*
-import konradtercjak.daznplayer.util.*
+import konradtercjak.daznplayer.model.DaznItem
+import konradtercjak.daznplayer.util.isToday
+import konradtercjak.daznplayer.util.isTomorrow
+import konradtercjak.daznplayer.util.isYesterday
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class DaznAdapter(private val vm: DaznViewModel) :
+class DaznAdapter(private val vm: ViewInteractor) :
     ListAdapter<DaznItem, DaznAdapter.PhotoHolder>(DiffCallback()) {
     var yesterdayFormat = SimpleDateFormat("'Yesterday,' HH:mm", Locale.US)
     var tomorrowFormat = SimpleDateFormat("'Tomorrow,' HH:mm", Locale.US)
 
-    var todayFormat= SimpleDateFormat("'Today,' HH:mm", Locale.US)
-    var otherdayFormat= SimpleDateFormat("dd.MM.yyyy", Locale.US)
+    var todayFormat = SimpleDateFormat("'Today,' HH:mm", Locale.US)
+    var otherdayFormat = SimpleDateFormat("dd.MM.yyyy", Locale.US)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoHolder {
@@ -33,7 +37,7 @@ class DaznAdapter(private val vm: DaznViewModel) :
             photoIv.setImageResource(R.drawable.placeholder)
             titleTv.text = item.title
             subtitleTv.text = item.subtitle
-            val date =item.date
+            val date = item.date
 
             dateTv.text = when {
                 date.isToday() -> todayFormat.format(item.date)
@@ -43,7 +47,7 @@ class DaznAdapter(private val vm: DaznViewModel) :
             }
         }
 
-        vm.bind(url, holder,item)
+        vm.bind(url, holder, item)
     }
 
     class PhotoHolder(val binding: PhotoItemBinding) : ViewHolder(binding.root) {

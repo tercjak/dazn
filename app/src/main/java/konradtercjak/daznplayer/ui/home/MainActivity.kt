@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-       val  binding = MainActivityBinding.inflate(layoutInflater)
+        val binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
