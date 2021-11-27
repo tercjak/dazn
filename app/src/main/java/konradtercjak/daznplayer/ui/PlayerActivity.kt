@@ -4,11 +4,13 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.util.*
 import com.google.android.material.snackbar.Snackbar
 import konradtercjak.daznplayer.databinding.PlayerBinding
+import konradtercjak.daznplayer.util.showSnackbar
 import org.xmlpull.v1.XmlPullParserException
 
 
@@ -52,31 +54,28 @@ class PlayerActivity : Activity() {
 
             player = ExoPlayer.Builder(this).setTrackSelector(trackSelector)
                 .build()
-                .also { exoPlayer ->
-                    binding.videoView.player = exoPlayer
+                .also { player ->
+                    binding.videoView.player = player
+                    try {
+                        player.setMediaItem(mediaItem)
+                        player.playWhenReady = playWhenReady
+                        player.seekTo(currentWindow, playbackPosition)
+                        player.prepare()
+
+                    }  catch (throwable: Throwable) {
+                        showErrorSnackbar("Stream error!")
+                    }
                 }
 
-            try {
-                player!!.setMediaItem(mediaItem)
-                player!!.playWhenReady = playWhenReady
-                player!!.seekTo(currentWindow, playbackPosition)
-                player!!.prepare()
 
-            }  catch (throwable: Throwable) {
-                showErrorSnackbar("Stream error!")
-            }
 
         }
     }
 
     private fun showErrorSnackbar(message: String): Snackbar {
-        val snackbar = Snackbar.make(this, binding.root, message, Snackbar.LENGTH_INDEFINITE)
-        snackbar.view.setOnClickListener {
-            snackbar.dismiss()
-        }
-        snackbar.show()
-        return snackbar
+        return applicationContext.showSnackbar(message,binding.root)
     }
+
 
     private fun releasePlayer() {
         player?.run {

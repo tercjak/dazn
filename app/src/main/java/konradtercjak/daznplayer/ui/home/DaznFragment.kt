@@ -13,10 +13,7 @@ import konradtercjak.daznplayer.R
 import konradtercjak.daznplayer.databinding.ListFragmentBinding
 import konradtercjak.daznplayer.model.*
 import konradtercjak.daznplayer.ui.PlayerActivity
-import konradtercjak.daznplayer.util.ConnectionLiveData
-import konradtercjak.daznplayer.util.autoCleaned
-import konradtercjak.daznplayer.util.isInternetConnection
-import konradtercjak.daznplayer.util.viewBinding
+import konradtercjak.daznplayer.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -98,13 +95,7 @@ class DaznFragment : Fragment(R.layout.list_fragment) {
 
 
     private fun showErrorSnackbar(message: String): Snackbar {
-
-        val snackbar = Snackbar.make(requireContext(), binding.root, message, Snackbar.LENGTH_INDEFINITE)
-        snackbar.view.setOnClickListener {
-            snackbar.dismiss()
-        }
-        snackbar.show()
-        return snackbar
+       return requireContext().showSnackbar(message,binding.root)
     }
 
     private fun initRecyclerView() {
