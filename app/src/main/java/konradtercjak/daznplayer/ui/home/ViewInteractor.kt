@@ -15,7 +15,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ViewInteractor {
-   private val scope = MainScope()
+    //TODO scope isnt connected to lifecycle
+    private val scope = MainScope()
 
     private val _state = MutableStateFlow<ViewState<DaznItem>>(LOADING())
     val state: StateFlow<ViewState<DaznItem>>
@@ -28,6 +29,7 @@ class ViewInteractor {
         }
 
     fun bind(url: String, holder: DaznAdapter.PhotoHolder, item: DaznItem) {
+        //TODO TOO much responsibility network request is NetworkInteractor/NetworkUsecase responsibility
 
         holder.disposableImage = holder.binding.photoIv.load(url) {
             crossfade(true)

@@ -14,6 +14,9 @@ import javax.inject.Inject
 class NetworkInteractor @Inject constructor(private val api: DaznApi) {
 
     fun getEvents(): Flow<NetworkResponse<List<DaznEvent>>> {
+        //TODO TOO much responsibilty retrying on 404 or 500 is UseCase responsibility
+        // The same as sorting
+
         return flow {
 
             try {
@@ -43,6 +46,8 @@ class NetworkInteractor @Inject constructor(private val api: DaznApi) {
     }
 
     fun getSchedule(): Flow<NetworkResponse<List<DaznSchedule>>> {
+        //TODO TOO much responsibilty retrying on 404 or 500 is UseCase responsibility
+        // The same as sorting and refreshing
         return flow {
             while (true) {
                 try {

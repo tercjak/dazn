@@ -13,6 +13,8 @@ import org.xmlpull.v1.XmlPullParserException
 
 
 class PlayerActivity : Activity() {
+    //TODO Add refactorisation to Clean Architecture
+
     companion object {
         val URL = "URL"
     }
