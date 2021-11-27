@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ViewInteractor {
-    val scope = MainScope()
+   private val scope = MainScope()
 
     private val _state = MutableStateFlow<ViewState<DaznItem>>(LOADING())
     val state: StateFlow<ViewState<DaznItem>>

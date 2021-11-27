@@ -17,11 +17,11 @@ import java.util.*
 
 class DaznAdapter(private val vm: ViewInteractor) :
     ListAdapter<DaznItem, DaznAdapter.PhotoHolder>(DiffCallback()) {
-    var yesterdayFormat = SimpleDateFormat("'Yesterday,' HH:mm", Locale.US)
-    var tomorrowFormat = SimpleDateFormat("'Tomorrow,' HH:mm", Locale.US)
 
-    var todayFormat = SimpleDateFormat("'Today,' HH:mm", Locale.US)
-    var otherdayFormat = SimpleDateFormat("dd.MM.yyyy", Locale.US)
+    private val yesterdayFormat = SimpleDateFormat("'Yesterday,' HH:mm", Locale.US)
+    private val tomorrowFormat = SimpleDateFormat("'Tomorrow,' HH:mm", Locale.US)
+    private val todayFormat = SimpleDateFormat("'Today,' HH:mm", Locale.US)
+    private val otherdayFormat = SimpleDateFormat("dd.MM.yyyy", Locale.US)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoHolder {

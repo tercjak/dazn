@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flow
 import java.io.IOException
 import javax.inject.Inject
 
-class NetworkInteractor @Inject constructor(val api: DaznApi) {
+class NetworkInteractor @Inject constructor(private val api: DaznApi) {
 
     fun getEvents(): Flow<NetworkResponse<List<DaznEvent>>> {
         return flow {

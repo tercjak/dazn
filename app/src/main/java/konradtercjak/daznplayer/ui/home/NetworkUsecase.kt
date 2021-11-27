@@ -12,8 +12,8 @@ import java.io.IOException
 import javax.inject.Inject
 
 class NetworkUsecase @Inject constructor(
-    val networkInteractor: NetworkInteractor,
-    val viewInteractor: ViewInteractor
+    private val networkInteractor: NetworkInteractor,
+    private val viewInteractor: ViewInteractor
 
 ) {
 
